@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.note_category.view.*
 
-class MainAdapter(private var items : ArrayList<NoteCategory>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class MainAdapter(private var items : ArrayList<NoteCategory>, private val context: Context, val clickListener: (NoteCategory) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
 
     // Gets the number of categories in the list
@@ -23,13 +23,18 @@ class MainAdapter(private var items : ArrayList<NoteCategory>, private val conte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvNoteTitle.text = items[position].title
         holder.tvNoteDescription.text = items[position].description
-
+        holder.bind(items[position], clickListener)
     }
 }
 
-class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolder (private val view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each note category to
     val tvNoteTitle = view.title!!
     val tvNoteDescription = view.description!!
+
+    //binds clicklistener to every item
+    fun bind(note: NoteCategory, clickListener: (NoteCategory) -> Unit) {
+        view.setOnClickListener{clickListener(note)}
+    }
 
 }

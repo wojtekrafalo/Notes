@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_category_dialog.view.*
 import kotlinx.android.synthetic.main.note_category.view.*
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         rv_notes.layoutManager = LinearLayoutManager(this)
 
         // Access the RecyclerView Adapter and load the data into it
-        rv_notes.adapter = MainAdapter(notes, this)
+        rv_notes.adapter = MainAdapter(notes, this, {noteCategory : NoteCategory -> categoryClicked(noteCategory)})
 
         addButton.setOnClickListener{
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_category_dialog, null)
@@ -43,10 +44,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun categoryClicked(noteCategory : NoteCategory) {
+        Toast.makeText(this, "Clicked: ${noteCategory.title}", Toast.LENGTH_LONG).show()
+    }
+
     private fun addCategories(){
         notes.add(NoteCategory("dog", "omg"))
         notes.add(NoteCategory("cat", "umm"))
-        notes.add(NoteCategory("owl", "hoo"))
+        notes.add(NoteCategory("owl", "hooy"))
     }
 
 
