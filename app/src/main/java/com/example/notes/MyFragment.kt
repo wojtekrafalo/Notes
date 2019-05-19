@@ -1,4 +1,4 @@
-package com.example.project
+package com.example.notes
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
