@@ -6,6 +6,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -55,7 +56,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
     }
 
     fun clickU (view: View) {
-        mySpannable = SpannableStringBuilder(fragEditText.text.toString())
+
+//        val s = SpannableString(fragEditText.text)
+//        s.setSpan(UnderlineSpan(),
+//            fragEditText.selectionStart, fragEditText.selectionEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        fragEditText.setText(s)
+
+        mySpannable = SpannableStringBuilder(fragEditText.text)
         mySpannable.setSpan(
             UnderlineSpan(),
             fragEditText.selectionStart, fragEditText.selectionEnd,
@@ -65,7 +72,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
     }
 
     fun clickB (view: View) {
-        mySpannable = SpannableStringBuilder(fragEditText.text.toString())
+        mySpannable = SpannableStringBuilder(fragEditText.text)
         mySpannable.setSpan(
             android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
             fragEditText.selectionStart, fragEditText.selectionEnd,
@@ -74,7 +81,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
     }
 
     fun clickI (view: View) {
-        mySpannable = SpannableStringBuilder(fragEditText.text.toString())
+        mySpannable = SpannableStringBuilder(fragEditText.text)
         mySpannable.setSpan(
             android.text.style.StyleSpan(android.graphics.Typeface.ITALIC),
             fragEditText.selectionStart, fragEditText.selectionEnd,
@@ -87,7 +94,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
         class ColorDialog : ColorPickerPopup.ColorPickerObserver() {
             override fun onColorPicked(color: Int) {
 
-                mySpannable = SpannableStringBuilder(fragEditText.text.toString())
+                mySpannable = SpannableStringBuilder(fragEditText.text)
                 mySpannable.setSpan(
                     ForegroundColorSpan(color),
                     fragEditText.selectionStart, fragEditText.selectionEnd,
@@ -112,7 +119,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
 
 
     fun clickedEdit (view: View) {
-        mySpannable = SpannableStringBuilder(fragEditText.text.toString())
+        mySpannable = SpannableStringBuilder(fragEditText.text)
         mySpannable.setSpan(
             android.text.style.StyleSpan(android.graphics.Typeface.ITALIC),
             fragEditText.selectionStart, fragEditText.selectionEnd,
@@ -133,7 +140,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Ed
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//              version 1
         fragEditText.typeface = Typeface.create(parent!!.getItemAtPosition(position).toString(), Typeface.NORMAL)
+
+        //      version 2
+//        mySpannable = SpannableStringBuilder(fragEditText.text)
+//        mySpannable.setSpan(
+//            Typeface.create(parent!!.getItemAtPosition(position).toString(), Typeface.NORMAL),
+//            fragEditText.selectionStart, fragEditText.selectionEnd,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        fragEditText.text = mySpannable
     }
 
     override fun onFragmentInteractionEdit(editText:EditText) {
