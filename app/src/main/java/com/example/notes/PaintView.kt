@@ -3,6 +3,8 @@ package com.example.notes
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -14,7 +16,9 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         private const val TAG = "PaintView"
     }
 
-    private val green = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var drawingMode=true
+
+    private val background = Paint(Paint.ANTI_ALIAS_FLAG)
     private val red = Paint(Paint.ANTI_ALIAS_FLAG)
     private val brush = Paint(Paint.ANTI_ALIAS_FLAG)
     private var scale = 1f
@@ -22,13 +26,18 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
 
     private var paths: ArrayList<Pair<Path, Paint>> = ArrayList()
 
-
     init {
-        green.setARGB(255, 0,255,0)
-        red.setARGB(255,255,0,0)
+        background.setARGB(255, 0,255,0)
+        background.strokeWidth = 50f
+        background.style = Paint.Style.STROKE
+
+
         brush.setARGB(255, 0,0,255)
-        brush.strokeWidth = 20f
+        brush.strokeWidth = 2f
+        brush.textSize = 40f
         brush.style = Paint.Style.STROKE
+
+        red.setARGB(255,255,0,0)
 
     }
 
@@ -47,34 +56,47 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         canvas.save()
         canvas.translate(0f, 0f)
         canvas.scale(scale, scale)
-        canvas.drawPaint(green)
+        canvas.drawPaint(background)
 
         paths.forEach{
             canvas.drawPath(it.first, it.second)
         }
-        canvas.drawPath(drawPath, brush)
+
+        if(drawingMode)
+            canvas.drawPath(drawPath, brush)
+        else
+            canvas.drawPath(drawPath, background)
 
         canvas.restore()
     }
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val touchedX = event.x/scale
         val touchedY = event.y/scale
 
         val action = event.action
+
         when(action){
             MotionEvent.ACTION_DOWN -> drawPath.moveTo(touchedX, touchedY)
             MotionEvent.ACTION_MOVE -> drawPath.lineTo(touchedX, touchedY)
             MotionEvent.ACTION_UP -> {
                 drawPath.setLastPoint(touchedX, touchedY)
-                val c = Paint()
-                c.set(brush)
+                val c:Paint
+                if(drawingMode){
+                    c = Paint()
+                    c.set(brush)
+                }
+                else{
+                    c = background
+                }
                 paths.add(Pair(drawPath, c))
                 drawPath = Path()
             }
             MotionEvent.ACTION_CANCEL -> drawPath.reset()
             MotionEvent.ACTION_OUTSIDE -> drawPath.reset()
         }
+
         invalidate()
 
         return true
@@ -90,24 +112,25 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         invalidate()
     }
 
-    fun setColor(a : Int, r:Int, g:Int, b:Int){
-        brush.setARGB(a,r,g,b)
+    fun setColor(color:Int){
+        brush.color = color
         invalidate()
     }
 
 
     fun switchToEraseMode(){
-
+        drawingMode=false
     }
 
     fun switchToDrawingMode(){
-
+        drawingMode=true
     }
 
     fun undo(){
-        if(paths.size>0)
-            paths.removeAt(paths.size-1)
-        invalidate()
+        if(paths.size>0) {
+            paths.removeAt(paths.size - 1)
+            invalidate()
+        }
     }
 
 

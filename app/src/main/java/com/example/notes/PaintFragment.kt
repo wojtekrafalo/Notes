@@ -93,16 +93,16 @@ class PaintFragment : Fragment() {
         paintview.setStrokeWidth(w)
     }
 
-    fun setColor(a : Int, r:Int, g:Int, b:Int){
-        paintview.setColor(a,r,g,b)
+    fun setColor(color: Int){
+        paintview.setColor(color)
     }
 
     fun switchToEraseMode(){
-
+        paintview.switchToEraseMode()
     }
 
     fun switchToDrawingMode(){
-
+        paintview.switchToDrawingMode()
     }
 
     fun undo(){

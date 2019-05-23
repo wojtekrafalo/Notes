@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="50dp"
               tools:context=".PaintMenuFragment">
-    <Button
-            android:text="Clear"
+    <SeekBar
+            android:layout_width="100dp"
+            android:layout_height="50dp" android:id="@+id/seekBar" android:layout_weight="1"
+            android:thumb="@android:drawable/ic_menu_edit"/>
+    <ImageButton
+            android:src="@drawable/colors"
+            android:layout_width="50dp"
+            android:layout_height="50dp" android:id="@+id/colorButton" android:layout_weight="1"
+            android:scaleType="centerInside"/>
+    <ImageButton
+            android:src="@drawable/rubber"
+            android:layout_width="50dp"
+            android:layout_height="50dp" android:id="@+id/eraseButton" android:layout_weight="1"
+            android:scaleType="centerInside"/>
+    <ImageButton
+            android:src="@android:drawable/ic_menu_revert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/undoButton" android:layout_weight="1"/>
+    <ImageButton
+            android:src="@android:drawable/ic_menu_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/clearButton" android:layout_weight="1"/>
-    <Button
-            android:text="Brush Size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/brushSizeButton" android:layout_weight="1"/>
-    <Button
-            android:text="Color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/colorButton" android:layout_weight="1"/>
-    <Button
-            android:text="undo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/undoButton"/>
 </LinearLayout>

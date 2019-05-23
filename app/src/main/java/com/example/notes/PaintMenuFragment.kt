@@ -1,14 +1,15 @@
 package com.example.notes
 
-import android.content.Context
-import android.net.Uri
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_paint_menu.*
+import android.widget.SeekBar
 import kotlinx.android.synthetic.main.fragment_paint_menu.view.*
+import top.defaults.colorpicker.ColorPickerPopup
 
 
 /**
@@ -32,14 +33,44 @@ class PaintMenuFragment : Fragment() {
         // Inflate the layout for this fragment
         val thisView = inflater.inflate(R.layout.fragment_paint_menu, container, false)
         thisView.clearButton.setOnClickListener { listener?.clearCanvas() }
-        thisView.brushSizeButton.setOnClickListener { listener?.setStrokeWidth(100f) }
-        thisView.colorButton.setOnClickListener { listener?.setColor(255, 255, 0,0) }
+        thisView.colorButton.setOnClickListener { pickColor() }
         thisView.undoButton.setOnClickListener { listener?.undo()}
+        thisView.eraseButton.setOnClickListener { listener?.switchToEraseMode()}
+
+        thisView.seekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {listener?.switchToDrawingMode()}
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                listener?.setStrokeWidth(progress+2f)
+
+            }
+
+        })
 
         return thisView
     }
 
 
+
+    private fun pickColor(){
+        class ColorDialog : ColorPickerPopup.ColorPickerObserver() {
+            override fun onColorPicked(color: Int) {
+                listener?.setColor(color)
+            }
+        }
+        val myColorDialog = ColorDialog()
+
+        ColorPickerPopup.Builder(context)
+            .initialColor(Color.RED)
+            .enableBrightness(true)
+            .okTitle("CONFIRM")
+            .cancelTitle("CANCEL")
+            .showValue(false)
+            .build()
+            .show(view, myColorDialog)
+    }
 
     override fun onDetach() {
         super.onDetach()
