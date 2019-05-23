@@ -2,66 +2,41 @@ package com.example.notes
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_edit_text.*
+import top.defaults.colorpicker.ColorPickerPopup
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [EditTextFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [EditTextFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-class EditTextFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: Int = 0
-    private var param2: String? = null
+class EditTextFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var listener: OnFragmentInteractionListener? = null
-//    private lateinit var edit:EditText
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getInt(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-//        edit = fragEditText
-//        fragEditText.setOnTouchListener { v, event -> listener?.onFragmentInteractionEdit(edit)
-    }
+    private lateinit var parent: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_text, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event. Probably comment this shit
-    fun onButtonPressed(view:View) {
-//        listener?.onFragmentInteraction(Uri())
-        listener?.onFragmentInteractionEdit(this.fragEditText)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
+            parent = context
         } else {
             throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
@@ -72,51 +47,90 @@ class EditTextFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-//        fun onFragmentInteraction(uri: Uri)
         fun onFragmentInteractionEdit(editText:EditText)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditTextFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditTextFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() =
+            EditTextFragment().apply {}
     }
 
-    fun setListener (c:OnFragmentInteractionListener) {
-//        if (context is OnFragmentInteractionListener) {
-            listener = c
-//        } else {
-//            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-//        }
-        this.fragEditText.setOnTouchListener { _, _ -> view?.setBackgroundColor(Color.RED)
-//            listener?.onFragmentInteractionEdit(fragEditText)
-            true}
+
+    fun clickU () {
+        val mySpannable = SpannableStringBuilder(fragEditText.text)
+        mySpannable.setSpan(
+            UnderlineSpan(),
+            fragEditText.selectionStart, fragEditText.selectionEnd,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        fragEditText.text = mySpannable
+    }
+
+    fun clickB () {
+        val mySpannable = SpannableStringBuilder(fragEditText.text)
+        mySpannable.setSpan(
+            android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+            fragEditText.selectionStart, fragEditText.selectionEnd,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        fragEditText.text = mySpannable
+    }
+
+    fun clickI () {
+        val mySpannable = SpannableStringBuilder(fragEditText.text)
+        mySpannable.setSpan(
+            android.text.style.StyleSpan(android.graphics.Typeface.ITALIC),
+            fragEditText.selectionStart, fragEditText.selectionEnd,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        fragEditText.text = mySpannable
+    }
+
+    fun clickC (view: View) {
+
+        class ColorDialog : ColorPickerPopup.ColorPickerObserver() {
+            override fun onColorPicked(color: Int) {
+                val mySpannable = SpannableStringBuilder(fragEditText.text)
+                mySpannable.setSpan(
+                    ForegroundColorSpan(color),
+                    fragEditText.selectionStart, fragEditText.selectionEnd,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                fragEditText.text = mySpannable
+            }
+        }
+
+        val myColorDialog = ColorDialog()
+
+        ColorPickerPopup.Builder(context)
+            .initialColor(Color.RED)
+            .enableBrightness(true)
+            .okTitle("CONFIRM")
+            .cancelTitle("CANCEL")
+            .showIndicator(true)
+            .showValue(false)
+            .build()
+            .show(view, myColorDialog)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        println("CHOSEN_ONE")
+//              version 1
+        fragEditText.typeface = Typeface.create(parent!!.getItemAtPosition(position).toString(), Typeface.NORMAL)
+
+//              version 2
+//        val mySpannable = SpannableStringBuilder(fragEditText.text)
+//        mySpannable.setSpan(
+//            Typeface.create(parent!!.getItemAtPosition(position).toString(), Typeface.NORMAL),
+//            fragEditText.selectionStart, fragEditText.selectionEnd,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        fragEditText.text = mySpannable
+
+//              version 3
+//        fragEditText.text.setSpan(
+//            Typeface.create(parent!!.getItemAtPosition(position).toString(), Typeface.NORMAL),
+//            fragEditText.selectionStart, fragEditText.selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+        println("CHOSEN_TWO")
     }
 }

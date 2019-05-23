@@ -7,50 +7,19 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="377dp"
-            android:layout_height="40dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+    <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" android:name="com.example.notes.EditTextMenuFragment"
+            android:id="@+id/fragEditTextMenuFragment" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragEditTextFragment"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.48"
-            android:id="@+id/linearLayout">
-        <Button android:layout_width="40dp" android:layout_height="40dp" android:text="@string/underline"
-                android:id="@+id/underline" android:onClick="clickU" android:fontFamily="sans-serif-medium"
-                android:typeface="serif" android:textAllCaps="true"/>
-        <Button android:layout_width="40dp" android:layout_height="40dp" android:text="@string/bold"
-                android:id="@+id/bold" android:onClick="clickB" android:textStyle="bold"
-                android:fontFamily="sans-serif-black"/>
-        <Button android:layout_width="40dp" android:layout_height="40dp" android:text="@string/italic"
-                android:id="@+id/italic" android:onClick="clickI" android:textStyle="italic"
-                android:fontFamily="sans-serif-light"/>
-        <ImageButton android:layout_width="40dp" android:layout_height="40dp" android:text="@string/color"
-                android:id="@+id/color" android:onClick="clickC" android:src="@android:drawable/ic_dialog_dialer"/>
-        <Spinner
-                android:layout_width="0dp"
-                android:layout_height="match_parent" android:id="@+id/spinner" android:layout_weight="1"/>
-    </LinearLayout>
-
-    <fragment android:layout_width="342dp" android:layout_height="108dp"
-              app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-              app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-              android:id="@+id/fragment"
-              app:layout_constraintHorizontal_bias="0.49"
-              class="com.example.notes.EditTextFragment"
-              android:layout_marginTop="52dp" app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-              android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintVertical_bias="0.067"/>
-
-    <!--
-    <fragment android:layout_width="342dp" android:layout_height="184dp"
-              app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-              app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-              android:layout_marginBottom="200dp"
-              app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/fragment2"
-              app:layout_constraintHorizontal_bias="0.49"
-              class="com.example.notes.EditTextFragment" android:layout_marginTop="8dp"
-              app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintVertical_bias="1.0"/>
-              -->
-
-
+            app:layout_constraintVertical_bias="0.468"/>
+    <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:name="com.example.notes.EditTextFragment"
+            android:id="@+id/fragEditTextFragment" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
 </android.support.constraint.ConstraintLayout>
