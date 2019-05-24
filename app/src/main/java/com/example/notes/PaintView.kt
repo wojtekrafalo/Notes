@@ -10,24 +10,35 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import java.io.Serializable
 
-class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
+    /*
+    Things to save:
+    brushColor:Int
+    brushWidth:Float
+    lowestY:Int
+    Paths : String (JSON)
+     */
+
     companion object {
         private const val TAG = "PaintView"
     }
 
     private var drawingMode=true
 
-    private val background = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val red = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val brush = Paint(Paint.ANTI_ALIAS_FLAG)
+
+
     private var scale = 1f
     private var drawPath: Path = Path()
 
+    private var lowestY = 0f
     private var paths: ArrayList<Pair<Path, Paint>> = ArrayList()
+    private val background = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val brush = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        background.setARGB(255, 0,255,0)
+        background.setARGB(255, 0,0,0)
         background.strokeWidth = 50f
         background.style = Paint.Style.STROKE
 
@@ -37,14 +48,12 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
         brush.textSize = 40f
         brush.style = Paint.Style.STROKE
 
-        red.setARGB(255,255,0,0)
-
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = View.MeasureSpec.getSize(widthMeasureSpec)
         val height = View.MeasureSpec.getSize(heightMeasureSpec)
-        setMeasuredDimension(width, width)
+        setMeasuredDimension(width, width+lowestY.toInt())
         scale = width/720f
         Log.d(TAG, " No dobra  w: $width;h:$height")
     }
@@ -90,6 +99,7 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
                 else{
                     c = background
                 }
+
                 paths.add(Pair(drawPath, c))
                 drawPath = Path()
             }
@@ -97,14 +107,22 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             MotionEvent.ACTION_OUTSIDE -> drawPath.reset()
         }
 
+        if(lowestY<touchedY)
+        {
+            lowestY=touchedY
+            requestLayout()
+        }
+
         invalidate()
 
         return true
     }
 
+
     fun clearCanvas() {
         paths.clear()
-        invalidate()
+        lowestY=0f
+        requestLayout()
     }
 
     fun setStrokeWidth(w:Float){
@@ -132,6 +150,7 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs) 
             invalidate()
         }
     }
+
 
 
 }
