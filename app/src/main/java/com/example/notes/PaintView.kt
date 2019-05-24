@@ -39,7 +39,7 @@ class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     private val brush = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        background.setARGB(255, 0,0,0)
+        background.setARGB(255, 0,255,0)
         background.strokeWidth = 50f
         background.style = Paint.Style.STROKE
 

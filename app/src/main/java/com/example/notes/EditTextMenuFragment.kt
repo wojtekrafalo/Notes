@@ -61,7 +61,7 @@ class EditTextMenuFragment : Fragment() {
         println("I'M_BEFORE_BEFORE_COBY")
     }
 
-    fun setListener(e: EditTextFragment) {
+    fun setEditTextFragment(e: EditTextFragment) {
         listener = e
         spinner.onItemSelectedListener = listener
     }

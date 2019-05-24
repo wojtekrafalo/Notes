@@ -3,6 +3,8 @@ package com.example.notes
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +13,16 @@ import java.util.ArrayList
 
 class RecyclerFragment : Fragment() {
 
-    var subnotes = ArrayList<SubnoteFragment>()
+    var subnotes = ArrayList<Fragment>()
     var myadapter: MyAdapter? = null
+    private lateinit var rv: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_recycler, container, false)
-        return view
+        rv = inflater.inflate(R.layout.fragment_recycler, container, false) as RecyclerView
+        return rv
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -32,54 +35,44 @@ class RecyclerFragment : Fragment() {
 
     private fun prepareRecycler() {
         rv.layoutManager = LinearLayoutManager(context!!)
-        myadapter = MyAdapter(subnotes, context!!, { subnoteFragment: SubnoteFragment -> subnoteClicked(subnoteFragment) })
+        myadapter = MyAdapter(subnotes, context!!)
         rv.adapter = myadapter
     }
 
-    fun changeNote(newSubnotes: ArrayList<SubnoteFragment>) {
+    fun changeNote(newSubnotes: ArrayList<Fragment>) {
         this.subnotes = newSubnotes
         prepareRecycler()
         setToolbar(-1)
     }
 
     fun addSubnote(type: Int) {
+        //subnotes.add(PaintFragment())
         when(type) {
             0 -> {
-                subnotes.add(SubnoteTextFragment())
+                subnotes.add(PaintFragment())
             }
             1 -> {
-                subnotes.add(SubnoteImageFragment())
+                subnotes.add(EditTextFragment())
             }
-            2 -> {
-                subnotes.add(SubnoteDrawingFragment())
-            }
+
         }
         myadapter?.notifyDataSetChanged()
         myadapter?.activeID = subnotes.size - 1
     }
 
     fun setToolbar(type : Int) {
-        var frag: Fragment
+        val frag: Fragment
         val transaction = fragmentManager!!.beginTransaction()
-        when(type) {
-            0 -> frag = ToolbarTextFragment()
-            1 -> frag = ToolbarImageFragment()
-            2 -> frag = ToolbarDrawingFragment()
-            else -> frag = ToolbarEmptyFragment()
-        }
+        frag = PaintMenuFragment()
+        /*when(type) {
+            0 -> frag = PaintMenuFragment()
+            //else -> frag = ToolbarImageFragment()
+        }*/
         transaction.replace(R.id.container, frag)
         transaction.commit()
     }
 
-    private fun subnoteClicked(subnote: SubnoteFragment) {
-        if(myadapter?.activeID != subnote.id) {
-            setToolbar(subnote.type)
-            myadapter?.activeID = subnote.id
-        } else {
-            setToolbar(-1)
-            myadapter?.activeID = -1
-        }
-    }
+
 
     fun editNote() {
 //        myadapter?.editNote()

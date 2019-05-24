@@ -6,17 +6,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_subnote_text.view.*
-import kotlinx.android.synthetic.main.fragment_subnote_drawing.view.*
 
-class MyAdapter(var subnotes: ArrayList<SubnoteFragment>, val context: Context,
-                val clickListener: (SubnoteFragment) -> Unit) :
+
+class MyAdapter(var subnotes: ArrayList<Fragment>, val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var activeID: Int = 0
 
     override fun getItemViewType(position: Int): Int {
-        return subnotes[position].type
+        return if(subnotes[position] is PaintFragment)
+            0
+        else
+            1
     }
 
     override fun getItemCount(): Int {
@@ -24,16 +25,35 @@ class MyAdapter(var subnotes: ArrayList<SubnoteFragment>, val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when(viewType) {
-            0 -> return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_subnote_text, parent, false))
-            1 -> return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_subnote_image, parent, false))
-            2 -> return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_subnote_drawing, parent, false))
-            else -> return ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_subnote_text, parent, false))
+        return when(viewType) {
+            0 -> ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_paint, parent, false))
+            else -> ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_edit_text, parent, false))
         }
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder.itemViewType) {
+
+        /*
+        Ważneeee
+         */
+
+        if(subnotes[position] is PaintFragment){
+            holder.itemView.setOnClickListener {
+                //TODO
+                val menu = PaintMenuFragment()
+                menu.setPaintFragment(subnotes[position] as PaintFragment)
+            }
+        }else if (subnotes[position] is EditTextFragment){
+            holder.itemView.setOnClickListener {
+                //TODO
+                val menu = EditTextMenuFragment()
+                menu.setEditTextFragment(subnotes[position] as EditTextFragment)
+            }
+        }
+
+
+        /*when(holder.itemViewType) {
             0 -> {
                 var subnoteTextFragment: SubnoteTextFragment = subnotes[position] as SubnoteTextFragment
 //                holder.itemView.f1textView.text = "teeeest"//subnoteTextFragment.text
@@ -49,11 +69,11 @@ class MyAdapter(var subnotes: ArrayList<SubnoteFragment>, val context: Context,
         }
         holder.itemView.setOnClickListener{
             clickListener(subnotes[position])
-        }
+        }*/
     }
 
     fun editNote() {
-        var subnote: SubnoteFragment
+        /*var subnote: SubnoteFragment
         when(subnotes[activeID].type) {
             0 -> {
                 subnote = subnotes[activeID] as SubnoteTextFragment
@@ -71,7 +91,7 @@ class MyAdapter(var subnotes: ArrayList<SubnoteFragment>, val context: Context,
                 // TODO
                 subnotes[activeID] = subnote
             }
-        }
+        }*/
     }
 }
 

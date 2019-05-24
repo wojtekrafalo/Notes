@@ -8,6 +8,10 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+
+    var notes = ArrayList<ArrayList<Fragment>>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,17 +37,7 @@ class MainActivity : AppCompatActivity() {
                 frag.addSubnote(2)
                 frag.setToolbar(2)
             }
-            R.id.button4 -> {
-                if(w == 0) {
-                    notes[0] = frag.subnotes
-                    frag.changeNote(notes[1])
-                    w = 1
-                } else {
-                    notes[1] = frag.subnotes
-                    frag.changeNote(notes[0])
-                    w = 0
-                }
-            }
+
         }
     }
 
