@@ -15,6 +15,7 @@ import java.io.Serializable
 class PaintView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
     /*
     Things to save:
+
     brushColor:Int
     brushWidth:Float
     lowestY:Int
