@@ -2,12 +2,13 @@ package com.example.notes
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.View
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    var notes = ArrayList<ArrayList<Subnote>>()
+    var notes = ArrayList<ArrayList<SubnoteFragment>>()
     var w = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {

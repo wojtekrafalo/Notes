@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class SubnoteImageFragment : Fragment() {
+class SubnoteImageFragment : SubnoteFragment() {
+
+    override val type = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -11,7 +11,7 @@ import java.util.ArrayList
 
 class RecyclerFragment : Fragment() {
 
-    var subnotes = ArrayList<Subnote>()
+    var subnotes = ArrayList<SubnoteFragment>()
     var myadapter: MyAdapter? = null
 
     override fun onCreateView(
@@ -32,11 +32,11 @@ class RecyclerFragment : Fragment() {
 
     private fun prepareRecycler() {
         rv.layoutManager = LinearLayoutManager(context!!)
-        myadapter = MyAdapter(subnotes, context!!, { subnote: Subnote -> subnoteClicked(subnote) })
+        myadapter = MyAdapter(subnotes, context!!, { subnoteFragment: SubnoteFragment -> subnoteClicked(subnoteFragment) })
         rv.adapter = myadapter
     }
 
-    fun changeNote(newSubnotes: ArrayList<Subnote>) {
+    fun changeNote(newSubnotes: ArrayList<SubnoteFragment>) {
         this.subnotes = newSubnotes
         prepareRecycler()
         setToolbar(-1)
@@ -45,13 +45,13 @@ class RecyclerFragment : Fragment() {
     fun addSubnote(type: Int) {
         when(type) {
             0 -> {
-                subnotes.add(SubnoteText(subnotes.size, "Tekst"))
+                subnotes.add(SubnoteTextFragment())
             }
             1 -> {
-                subnotes.add(SubnoteImage(subnotes.size, "Obrazek"))
+                subnotes.add(SubnoteImageFragment())
             }
             2 -> {
-                subnotes.add(SubnoteDrawing(subnotes.size, "Rysunek"))
+                subnotes.add(SubnoteDrawingFragment())
             }
         }
         myadapter?.notifyDataSetChanged()
@@ -71,7 +71,7 @@ class RecyclerFragment : Fragment() {
         transaction.commit()
     }
 
-    private fun subnoteClicked(subnote : Subnote) {
+    private fun subnoteClicked(subnote: SubnoteFragment) {
         if(myadapter?.activeID != subnote.id) {
             setToolbar(subnote.type)
             myadapter?.activeID = subnote.id
@@ -82,7 +82,7 @@ class RecyclerFragment : Fragment() {
     }
 
     fun editNote() {
-        myadapter?.editNote()
+//        myadapter?.editNote()
         myadapter?.notifyDataSetChanged()
     }
 }
