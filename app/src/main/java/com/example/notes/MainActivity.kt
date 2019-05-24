@@ -8,9 +8,6 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    var notes = ArrayList<ArrayList<SubnoteFragment>>()
-    var w = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
