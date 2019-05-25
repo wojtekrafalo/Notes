@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Clicked: ${noteCategory.title}", Toast.LENGTH_LONG).show()
 
         if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            var myintent = Intent(this, MainActivity::class.java)
+            var myintent = Intent(this, NotesActivity::class.java)
             startActivity(myintent)
         }
         else {
