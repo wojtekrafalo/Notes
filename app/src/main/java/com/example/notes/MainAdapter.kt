@@ -4,9 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import kotlinx.android.synthetic.main.note_category.view.*
 
-class MainAdapter(private var items : ArrayList<NoteCategory>, private val context: Context, val clickListener: (NoteCategory) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class MainAdapter(private var items : ArrayList<NoteCategory>, private val context: Context, private val clickListener: (NoteCategory) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
 
     // Gets the number of categories in the list
@@ -23,18 +24,22 @@ class MainAdapter(private var items : ArrayList<NoteCategory>, private val conte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvNoteTitle.text = items[position].title
         holder.tvNoteDescription.text = items[position].description
-        holder.bind(items[position], clickListener)
+
+        //delete item with the same position
+        holder.tvNoteDelete.setOnClickListener {
+            items.removeAt(position)
+            notifyDataSetChanged()
+        }
+
+        //bind listener to every item
+        holder.view.setOnClickListener { clickListener(items[position]) }
     }
 }
 
-class ViewHolder (private val view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolder (val view: View) : RecyclerView.ViewHolder(view) {
     // Holds the TextView that will add each note category to
     val tvNoteTitle = view.title!!
     val tvNoteDescription = view.description!!
-
-    //binds clicklistener to every item
-    fun bind(note: NoteCategory, clickListener: (NoteCategory) -> Unit) {
-        view.setOnClickListener{clickListener(note)}
-    }
+    val tvNoteDelete = view.del_cat!!
 
 }

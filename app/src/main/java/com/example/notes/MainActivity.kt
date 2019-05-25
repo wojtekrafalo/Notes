@@ -1,11 +1,14 @@
 package com.example.notes
 
+import android.content.Intent
+import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_category_dialog.view.*
@@ -19,9 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Loads categories into the ArrayList
-        addCategories()
 
         // Creates a vertical Layout Manager
         rv_notes.layoutManager = LinearLayoutManager(this)
@@ -45,15 +45,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun categoryClicked(noteCategory : NoteCategory) {
+
         Toast.makeText(this, "Clicked: ${noteCategory.title}", Toast.LENGTH_LONG).show()
-    }
 
-    private fun addCategories(){
-        notes.add(NoteCategory("dog", "omg"))
-        notes.add(NoteCategory("cat", "umm"))
-        notes.add(NoteCategory("owl", "hooy"))
-    }
+        if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            var myintent = Intent(this, MainActivity::class.java)
+            startActivity(myintent)
+        }
+        else {
 
+        }
+    }
 
 
 }
