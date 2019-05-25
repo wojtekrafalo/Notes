@@ -16,9 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        /////////////////
-
         AsyncTask.execute {
 
             try {
@@ -26,15 +23,12 @@ class MainActivity : AppCompatActivity() {
                     this,
                     NotesDatabase::class.java,
                     "notes.db"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
             } catch (e: Exception) {
                 Log.i("am2019", e.message)
             }
 
-            val s1 = Note("testtest123")
-            database.notesDao().insertAll(s1)
-            val s2 = Note("testttt222")
-            database.notesDao().insertAll(s2)
+            database.notesDao().deleteAll()
 
         }
 
