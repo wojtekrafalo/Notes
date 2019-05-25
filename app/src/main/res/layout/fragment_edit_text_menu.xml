@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="50dp"
+              app:layout_constraintHorizontal_bias="0.48"
+              android:id="@+id/linearLayout" xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button android:layout_width="50dp" android:layout_height="50dp" android:text="@string/underline"
+            android:id="@+id/underline" android:fontFamily="sans-serif-condensed-medium"
+            android:typeface="serif" android:textAllCaps="true"/>
+
+    <Button android:layout_width="50dp" android:layout_height="50dp" android:text="@string/bold"
+            android:id="@+id/bold" android:textStyle="bold"
+            android:fontFamily="sans-serif-black"/>
+
+    <Button android:layout_width="50dp" android:layout_height="50dp" android:text="@string/italic"
+            android:id="@+id/italic" android:textStyle="italic"
+            android:fontFamily="serif"/>
+
+    <ImageButton android:layout_width="50dp" android:layout_height="50dp" android:text="@string/color"
+                 android:id="@+id/color" android:src="@android:drawable/ic_dialog_dialer"
+                 android:contentDescription="@string/color"/>
+
+    <Spinner android:layout_width="0dp"
+             android:layout_height="match_parent" android:id="@+id/spinner" android:layout_weight="1"/>
+</LinearLayout>

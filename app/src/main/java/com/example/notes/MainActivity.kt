@@ -7,12 +7,9 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_category_dialog.view.*
-import kotlinx.android.synthetic.main.note_category.view.*
 
 class MainActivity : AppCompatActivity() {
 

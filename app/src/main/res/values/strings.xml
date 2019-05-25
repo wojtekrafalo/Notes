@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="underline">U</string>
+    <string name="bold">B</string>
+    <string name="italic">I</string>
+    <string name="color">C</string>
+
+    <string-array name="fonts">
+        <item>sans-serif</item>
+        <item>sans-serif-light</item>
+        <item>sans-serif-medium</item>
+        <item>sans-serif-condensed</item>
+        <item>sans-serif-black</item>
+        <item>sans-serif-thin</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
