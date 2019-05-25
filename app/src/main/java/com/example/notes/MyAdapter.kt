@@ -26,8 +26,8 @@ class MyAdapter(var subnotes: ArrayList<Fragment>, val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
-            0 -> ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_paint, parent, false))
-            else -> ViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_edit_text, parent, false))
+            0 -> ViewHolderr(LayoutInflater.from(context).inflate(R.layout.fragment_paint, parent, false))
+            else -> ViewHolderr(LayoutInflater.from(context).inflate(R.layout.fragment_edit_text, parent, false))
         }
 
     }
@@ -95,6 +95,6 @@ class MyAdapter(var subnotes: ArrayList<Fragment>, val context: Context) :
     }
 }
 
-class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolderr (view: View) : RecyclerView.ViewHolder(view) {
 
 }
