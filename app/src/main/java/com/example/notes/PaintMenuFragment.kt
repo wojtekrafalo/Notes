@@ -20,6 +20,7 @@ import top.defaults.colorpicker.ColorPickerPopup
  */
 class PaintMenuFragment : Fragment() {
     private var listener: PaintFragment? = null
+    private var t = ""
 
     fun setPaintFragment(p: PaintFragment){
         listener = p
@@ -32,10 +33,23 @@ class PaintMenuFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val thisView = inflater.inflate(R.layout.fragment_paint_menu, container, false)
-        thisView.clearButton.setOnClickListener { listener?.clearCanvas() }
-        thisView.colorButton.setOnClickListener { pickColor() }
-        thisView.undoButton.setOnClickListener { listener?.undo()}
-        thisView.eraseButton.setOnClickListener { listener?.switchToEraseMode()}
+
+        thisView.clearButton.setOnClickListener {
+            //listener?.clearCanvas()
+
+            t = listener?.getPathsJSON().toString()
+            Log.d(TAG, t)
+        }
+        thisView.colorButton.setOnClickListener {
+            pickColor()
+        }
+        thisView.undoButton.setOnClickListener {
+            //listener?.undo()
+            listener?.setPathsJSON(t)
+        }
+        thisView.eraseButton.setOnClickListener {
+            listener?.switchToEraseMode()
+        }
 
         thisView.seekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -43,7 +57,7 @@ class PaintMenuFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {listener?.switchToDrawingMode()}
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                listener?.setStrokeWidth(progress+2f)
+                listener?.setBrushWidth(progress+2f)
 
             }
 

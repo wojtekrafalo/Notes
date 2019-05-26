@@ -1,8 +1,5 @@
 package com.example.notes
 
-import android.content.Context
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -44,17 +41,41 @@ class PaintFragment : Fragment() {
     }
 
 
-    fun clearCanvas(){
-        paintview.clearCanvas()
+    fun getBrushWidth():Float{
+        return paintview.getBrushWidth()
     }
 
-
-    fun setStrokeWidth(w:Float){
-        paintview.setStrokeWidth(w)
+    fun setBrushWidth(w:Float){
+        paintview.setBrushWidth(w)
     }
 
     fun setColor(color: Int){
         paintview.setColor(color)
+    }
+
+    fun getColor():Int{
+        return paintview.getColor()
+    }
+
+    fun getLowestY():Float{
+        return paintview.getLowestY()
+    }
+
+    fun setLowestY(y:Float){
+        paintview.setLowestY(y)
+    }
+
+
+    fun getPathsJSON():String{
+        return paintview.getPathsJSON()
+    }
+
+    fun setPathsJSON(s:String){
+       paintview.setPathsJSON(s)
+    }
+
+    fun clearCanvas(){
+        paintview.clearCanvas()
     }
 
     fun switchToEraseMode(){
