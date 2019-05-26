@@ -21,6 +21,7 @@ class MySQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
 
+    //TODO ten obiekt jest do poprawy jeśli będziesz robił bazę danych. Zmień wartość DATABASE_CREATE tak, żeby tworzyło tabele z notatkami
     companion object {
         val TABLE_EDIT_TEXT = "edit_text"
         val COLUMN_ID = "_id"

@@ -3,11 +3,10 @@ package com.example.notes
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Html
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -17,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_edit_text.*
+import kotlinx.android.synthetic.main.my_fragment.*
 import top.defaults.colorpicker.ColorPickerPopup
 
 
@@ -132,5 +132,15 @@ class EditTextFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //            fragEditText.selectionStart, fragEditText.selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
         println("CHOSEN_TWO")
+    }
+
+
+
+    fun getTableEditText(): EditTextEntity {
+        return EditTextEntity(Html.toHtml(editText.text).toString())
+    }
+
+    fun setTableEditText(edit_text : EditTextEntity){
+        editText.setText(Html.fromHtml(edit_text.text))
     }
 }
