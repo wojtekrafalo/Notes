@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.add_category_dialog, null)
             val mBuilder = AlertDialog.Builder(this)
                 .setView(mDialogView)
-                .setTitle("Add Category")
+                .setTitle("Add Note")
             val mAlertDialog = mBuilder.show()
             mDialogView.addCategory.setOnClickListener {
                 mAlertDialog.dismiss()
@@ -65,13 +65,13 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Clicked: ${noteCategory.title}", Toast.LENGTH_LONG).show()
 
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+      //  if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             var myintent = Intent(this, NoteActivity::class.java)
-            myintent.putExtra("thisname", "titletopass")
+            myintent.putExtra("title", noteCategory.title)
             myintent.putExtra("idInDB", 1)
             startActivity(myintent)
-        } else {
-        }
+      //  } else {
+      //  }
 
 
     }

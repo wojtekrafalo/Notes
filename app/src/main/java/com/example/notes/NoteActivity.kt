@@ -14,12 +14,16 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var database : NotesDatabase
 
     var idInDB: Int? = null
-
+    var title: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
         idInDB = intent.getIntExtra("idInDB", 0)
+
+        //Notes category
+        title = intent.getStringExtra("title")
+        supportActionBar?.title = title
 
         AsyncTask.execute {
 
@@ -41,14 +45,17 @@ class NoteActivity : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
+
         when(view.getId()) {
             R.id.buttonText -> {
                 var intent = Intent(this, NoteTextActivity::class.java)
+                intent.putExtra("title", title)
                 intent.putExtra("idInDB", idInDB)
                 startActivity(intent)
             }
             R.id.buttonPaint -> {
                 var intent = Intent(this, NotePaintActivity::class.java)
+                intent.putExtra("title", title)
                 intent.putExtra("idInDB", idInDB)
                 startActivity(intent)
             }
