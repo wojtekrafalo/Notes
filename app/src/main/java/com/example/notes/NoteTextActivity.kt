@@ -22,7 +22,7 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
     private lateinit var noteFragment : Fragment
     private lateinit var menuFragment : Fragment
 
-    var idInDB: Int? = null
+    var idInDB: Long? = null
 
     lateinit var note : Note
 
@@ -30,12 +30,24 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_text)
 
-        idInDB = intent.getIntExtra("idInDB", 0)
+        idInDB = intent.getLongExtra("idInDB", 0)
 
         noteFragment = this.noteFrag
         menuFragment = this.menuFrag
         (menuFragment as EditTextMenuFragment).setEditTextFragment(noteFragment as EditTextFragment)
 
+        setInitDataFromDB()
+    }
+
+    fun onClick(view: View) {
+        when(view.getId()) {
+            R.id.buttonSave -> {
+                sendDataToDB()
+            }
+        }
+    }
+
+    private fun setInitDataFromDB() {
         AsyncTask.execute {
             try {
                 database = Room.databaseBuilder(
@@ -51,25 +63,19 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
         }
     }
 
-    fun onClick(view: View) {
-        when(view.getId()) {
-            R.id.buttonSave -> {
-
-                AsyncTask.execute {
-                    try {
-                        database = Room.databaseBuilder(
-                            this,
-                            NotesDatabase::class.java,
-                            "notes.db"
-                        ).build()
-                    } catch (e: Exception) {
-                        Log.i("am2019", e.message)
-                    }
-                    database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.text.toString())
-//                    database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.getText())
-                }
-
+    private fun sendDataToDB() {
+        AsyncTask.execute {
+            try {
+                database = Room.databaseBuilder(
+                    this,
+                    NotesDatabase::class.java,
+                    "notes.db"
+                ).build()
+            } catch (e: Exception) {
+                Log.i("am2019", e.message)
             }
+            database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.text.toString())
+//            database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.getText())
         }
     }
 }

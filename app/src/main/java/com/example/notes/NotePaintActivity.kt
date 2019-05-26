@@ -18,7 +18,7 @@ class NotePaintActivity : AppCompatActivity() {
     private lateinit var noteFragment : Fragment
     private lateinit var menuFragment : Fragment
 
-    var idInDB: Int? = null
+    var idInDB: Long? = null
 
     lateinit var note : Note
 
@@ -26,12 +26,24 @@ class NotePaintActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_paint)
 
-        idInDB = intent.getIntExtra("idInDB", 0)
+        idInDB = intent.getLongExtra("idInDB", 0)
 
         noteFragment = noteFrag
         menuFragment = menuFrag
         (menuFragment as PaintMenuFragment).setPaintFragment(noteFragment as PaintFragment)
 
+        setInitDataFromDB()
+    }
+
+    fun onClick(view: View) {
+        when(view.getId()) {
+            R.id.buttonSave -> {
+                sendDataToDB()
+            }
+        }
+    }
+
+    private fun setInitDataFromDB() {
         AsyncTask.execute {
             try {
                 database = Room.databaseBuilder(
@@ -50,24 +62,18 @@ class NotePaintActivity : AppCompatActivity() {
         }
     }
 
-    fun onClick(view: View) {
-        when(view.getId()) {
-            R.id.buttonSave -> {
-
-                AsyncTask.execute {
-                    try {
-                        database = Room.databaseBuilder(
-                            this,
-                            NotesDatabase::class.java,
-                            "notes.db"
-                        ).build()
-                    } catch (e: Exception) {
-                        Log.i("am2019", e.message)
-                    }
-                    database.notesDao().updatePaintNote(idInDB!!, noteFragment.paintview.getColor(), noteFragment.paintview.getBrushWidth(), noteFragment.paintview.getLowestY(), noteFragment.paintview.getPathsJSON())
-                }
-
+    private fun sendDataToDB() {
+        AsyncTask.execute {
+            try {
+                database = Room.databaseBuilder(
+                    this,
+                    NotesDatabase::class.java,
+                    "notes.db"
+                ).build()
+            } catch (e: Exception) {
+                Log.i("am2019", e.message)
             }
+            database.notesDao().updatePaintNote(idInDB!!, noteFragment.paintview.getColor(), noteFragment.paintview.getBrushWidth(), noteFragment.paintview.getLowestY(), noteFragment.paintview.getPathsJSON())
         }
     }
 }

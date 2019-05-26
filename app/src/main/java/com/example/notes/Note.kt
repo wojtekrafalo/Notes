@@ -12,5 +12,5 @@ data class Note(
     @ColumnInfo(name = "lowestY") var lowestY: Float,
     @ColumnInfo(name = "Paths") var Paths: String,
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true) var id: Int? = 0
+    @PrimaryKey(autoGenerate = true) var id: Long = 0
 )

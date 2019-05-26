@@ -24,6 +24,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        AsyncTask.execute {
+
+            try {
+                database = Room.databaseBuilder(
+                    this,
+                    NotesDatabase::class.java,
+                    "notes.db"
+                ).fallbackToDestructiveMigration().build()
+            } catch (e: Exception) {
+                Log.i("am2019", e.message)
+            }
+
+//            database.notesDao().deleteAll()
+//            database.notesDao().deleteAllDescr()
+
+        }
+
         // Creates a vertical Layout Manager
         rv_notes.layoutManager = LinearLayoutManager(this)
 
@@ -40,9 +57,17 @@ class MainActivity : AppCompatActivity() {
                 mAlertDialog.dismiss()
                 val title = mDialogView.ettitle.text.toString()
                 val description = mDialogView.etdescription.text.toString()
-                notes.add(NoteCategory(title, description))
+                AsyncTask.execute {
+                    database.notesDao().insertNoteDescr(NoteDescription(title, description))
+                    notes.add(NoteCategory(database.notesDao().getLastAdded().id, title, description))
+                }
             }
         }
+
+        rv_notesInit()
+    }
+
+    private fun rv_notesInit() {
 
         AsyncTask.execute {
 
@@ -56,9 +81,13 @@ class MainActivity : AppCompatActivity() {
                 Log.i("am2019", e.message)
             }
 
-//            database.notesDao().deleteAll()
+            var list = database.notesDao().getAllCategories()
 
+            for(i in 0..list.size-1) {
+                notes.add(NoteCategory(list[i].id, list[i].title, list[i].description))
+            }
         }
+
     }
 
     private fun categoryClicked(noteCategory: NoteCategory) {
@@ -67,8 +96,9 @@ class MainActivity : AppCompatActivity() {
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             var myintent = Intent(this, NoteActivity::class.java)
-            myintent.putExtra("thisname", "titletopass")
-            myintent.putExtra("idInDB", 1)
+            myintent.putExtra("title", noteCategory.title)
+            myintent.putExtra("description", noteCategory.description)
+            myintent.putExtra("idInDB", noteCategory.idInDB)
             startActivity(myintent)
         } else {
         }

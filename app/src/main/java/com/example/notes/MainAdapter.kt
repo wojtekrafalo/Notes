@@ -1,6 +1,9 @@
 package com.example.notes
+import android.arch.persistence.room.Room
 import android.content.Context
+import android.os.AsyncTask
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,7 @@ import kotlinx.android.synthetic.main.note_category.view.*
 
 class MainAdapter(private var items : ArrayList<NoteCategory>, private val context: Context, private val clickListener: (NoteCategory) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
+    private lateinit var database : NotesDatabase
 
     // Gets the number of categories in the list
     override fun getItemCount(): Int {
@@ -27,12 +31,34 @@ class MainAdapter(private var items : ArrayList<NoteCategory>, private val conte
 
         //delete item with the same position
         holder.tvNoteDelete.setOnClickListener {
+
+            deleteFromDB(items[position].idInDB)
+
             items.removeAt(position)
             notifyDataSetChanged()
         }
 
         //bind listener to every item
         holder.view.setOnClickListener { clickListener(items[position]) }
+    }
+
+    private fun deleteFromDB(id: Long) {
+        AsyncTask.execute {
+
+            try {
+                database = Room.databaseBuilder(
+                    context,
+                    NotesDatabase::class.java,
+                    "notes.db"
+                ).fallbackToDestructiveMigration().build()
+            } catch (e: Exception) {
+                Log.i("am2019", e.message)
+            }
+
+            database.notesDao().deleteNoteDescr(id)
+            database.notesDao().deleteNote(id)
+
+        }
     }
 }
 
