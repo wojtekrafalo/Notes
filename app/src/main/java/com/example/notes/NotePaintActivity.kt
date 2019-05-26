@@ -21,7 +21,6 @@ class NotePaintActivity : AppCompatActivity() {
     var idInDB: Int? = null
 
     lateinit var note : Note
-    lateinit var newNote : Note
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +44,9 @@ class NotePaintActivity : AppCompatActivity() {
             }
             note = database.notesDao().getNote(idInDB!!)
             noteFragment.paintview.setColor(note.brushColor)
-            noteFragment.paintview.setStrokeWidth(note.brushWidth)
-//            noteFragment.paintview.setLowestY(note.lowestY)
-//            noteFragment.paintview.setPaths(note.Paths)
+            noteFragment.paintview.setBrushWidth(note.brushWidth)
+            noteFragment.paintview.setLowestY(note.lowestY)
+            noteFragment.paintview.setPathsJSON(note.Paths)
         }
     }
 
@@ -65,7 +64,7 @@ class NotePaintActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         Log.i("am2019", e.message)
                     }
-//                    database.notesDao().updatePaintNote(idInDB!!, noteFragment.paintview.getColor(), noteFragment.paintview.getStrokeWidth(), noteFragment.paintview.getLowestY(), noteFragment.paintview.getPaths())
+                    database.notesDao().updatePaintNote(idInDB!!, noteFragment.paintview.getColor(), noteFragment.paintview.getBrushWidth(), noteFragment.paintview.getLowestY(), noteFragment.paintview.getPathsJSON())
                 }
 
             }

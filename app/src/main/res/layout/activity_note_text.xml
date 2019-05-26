@@ -23,10 +23,11 @@
     <fragment
             android:layout_width="0dp"
             android:layout_height="0dp" android:name="com.example.notes.EditTextFragment"
-            android:id="@+id/noteFrag" app:layout_constraintTop_toBottomOf="@+id/menuFrag"
+            android:id="@+id/noteFrag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuFrag"/>
     <fragment
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:name="com.example.notes.EditTextMenuFragment"

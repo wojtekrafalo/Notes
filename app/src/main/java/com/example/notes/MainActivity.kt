@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("am2019", e.message)
             }
 
-            database.notesDao().deleteAll()
+//            database.notesDao().deleteAll()
 
         }
 

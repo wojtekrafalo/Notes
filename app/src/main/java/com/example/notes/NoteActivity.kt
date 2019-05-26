@@ -2,6 +2,7 @@ package com.example.notes
 
 import android.arch.persistence.room.Room
 import android.content.Intent
+import android.graphics.Color
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -34,7 +35,7 @@ class NoteActivity : AppCompatActivity() {
             }
 
             if(database.notesDao().getNote(idInDB!!) == null) {
-                database.notesDao().insertAll(Note("NewNote$idInDB", 0, 0f, 0, "", idInDB)) // TODO initial data
+                database.notesDao().insertAll(Note("NewNote$idInDB", Color.RED, 2f, 0f, "", idInDB)) // TODO initial data
             }
 
         }

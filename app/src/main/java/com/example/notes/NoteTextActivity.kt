@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_note_text.*
 import kotlinx.android.synthetic.main.fragment_edit_text.*
-import kotlinx.android.synthetic.main.fragment_paint.*
 import java.lang.Exception
 
 class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInteractionListener {
@@ -26,7 +25,6 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
     var idInDB: Int? = null
 
     lateinit var note : Note
-    lateinit var newNote : Note
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +65,7 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
                     } catch (e: Exception) {
                         Log.i("am2019", e.message)
                     }
+                    database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.text.toString())
 //                    database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.getText())
                 }
 
