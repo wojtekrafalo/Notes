@@ -21,7 +21,8 @@
             android:fontFamily="serif"/>
 
     <ImageButton android:layout_width="50dp" android:layout_height="50dp" android:text="@string/color"
-                 android:id="@+id/color" android:src="@android:drawable/ic_dialog_dialer"
+                 android:id="@+id/color" android:src="@drawable/colors" android:layout_weight="1"
+                 android:scaleType="centerInside"
                  android:contentDescription="@string/color"/>
 
     <Spinner android:layout_width="0dp"
