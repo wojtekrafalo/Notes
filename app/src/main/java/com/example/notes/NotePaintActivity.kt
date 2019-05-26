@@ -55,10 +55,10 @@ class NotePaintActivity : AppCompatActivity() {
                 Log.i("am2019", e.message)
             }
             note = database.notesDao().getNote(idInDB!!)
-            noteFragment.paintview.setColor(note.brushColor)
-            noteFragment.paintview.setBrushWidth(note.brushWidth)
-            noteFragment.paintview.setLowestY(note.lowestY)
-            noteFragment.paintview.setPathsJSON(note.Paths)
+            (noteFragment as PaintFragment).setColor(note.brushColor)
+            (noteFragment as PaintFragment).setBrushWidth(note.brushWidth)
+            (noteFragment as PaintFragment).setLowestY(note.lowestY)
+            (noteFragment as PaintFragment).setPathsJSON(note.Paths)
         }
     }
 
@@ -73,7 +73,7 @@ class NotePaintActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.i("am2019", e.message)
             }
-            database.notesDao().updatePaintNote(idInDB!!, noteFragment.paintview.getColor(), noteFragment.paintview.getBrushWidth(), noteFragment.paintview.getLowestY(), noteFragment.paintview.getPathsJSON())
+            database.notesDao().updatePaintNote(idInDB!!, (noteFragment as PaintFragment).getColor(), (noteFragment as PaintFragment).getBrushWidth(), (noteFragment as PaintFragment).getLowestY(), (noteFragment as PaintFragment).getPathsJSON())
         }
     }
 }

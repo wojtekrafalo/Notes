@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_edit_text.*
-import kotlinx.android.synthetic.main.my_fragment.*
 import top.defaults.colorpicker.ColorPickerPopup
 
 
@@ -136,11 +135,11 @@ class EditTextFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
 
-    fun getTableEditText(): EditTextEntity {
-        return EditTextEntity(Html.toHtml(editText.text).toString())
+    fun getTableEditText(): String {
+        return Html.toHtml(fragEditText.text).toString()
     }
 
-    fun setTableEditText(edit_text : EditTextEntity){
-        editText.setText(Html.fromHtml(edit_text.text))
+    fun setTableEditText(edit_text : String){
+        fragEditText.setText(Html.fromHtml(edit_text))
     }
 }

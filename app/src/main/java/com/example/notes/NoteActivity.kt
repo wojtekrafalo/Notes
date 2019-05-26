@@ -44,7 +44,7 @@ class NoteActivity : AppCompatActivity() {
             }
 
             if(database.notesDao().getNote(idInDB!!) == null) {
-                database.notesDao().insertAll(Note("NewNote$idInDB", Color.RED, 2f, 0f, "", idInDB!!)) // TODO initial data
+                database.notesDao().insertAll(Note("", Color.RED, 2f, 0f, "", idInDB!!))
             }
 
         }

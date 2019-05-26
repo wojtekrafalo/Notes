@@ -59,7 +59,7 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
                 Log.i("am2019", e.message)
             }
             note = database.notesDao().getNote(idInDB!!)
-            noteFragment.fragEditText.setText(note.text)
+            (noteFragment as EditTextFragment).setTableEditText(note.text)
         }
     }
 
@@ -74,8 +74,7 @@ class NoteTextActivity : AppCompatActivity(), EditTextFragment.OnFragmentInterac
             } catch (e: Exception) {
                 Log.i("am2019", e.message)
             }
-            database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.text.toString())
-//            database.notesDao().updateTextNote(idInDB!!, noteFragment.fragEditText.getText())
+            database.notesDao().updateTextNote(idInDB!!, (noteFragment as EditTextFragment).getTableEditText())
         }
     }
 }
