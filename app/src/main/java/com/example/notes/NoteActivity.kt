@@ -2,24 +2,35 @@ package com.example.notes
 
 import android.arch.persistence.room.Room
 import android.content.Intent
+import android.graphics.Color
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import kotlinx.android.synthetic.main.activity_note.*
 import java.lang.Exception
 
 class NoteActivity : AppCompatActivity() {
 
     private lateinit var database : NotesDatabase
 
-    var idInDB: Int? = null
+    var idInDB: Long? = null
     var title: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        idInDB = intent.getIntExtra("idInDB", 0)
+        idInDB = intent.getLongExtra("idInDB", 0)
+
+        titleView.text = intent.getStringExtra("title")
+        descriptionView.text = intent.getStringExtra("description")
+
+        noteInit()
+    }
+
+    private fun noteInit() {
 
         //Notes category
         title = intent.getStringExtra("title")
@@ -38,7 +49,7 @@ class NoteActivity : AppCompatActivity() {
             }
 
             if(database.notesDao().getNote(idInDB!!) == null) {
-                database.notesDao().insertAll(Note("NewNote$idInDB", 0, 0f, 0, "", idInDB)) // TODO initial data
+                database.notesDao().insertAll(Note("", Color.RED, 2f, 0f, "", idInDB!!))
             }
 
         }
@@ -49,13 +60,11 @@ class NoteActivity : AppCompatActivity() {
         when(view.getId()) {
             R.id.buttonText -> {
                 var intent = Intent(this, NoteTextActivity::class.java)
-                intent.putExtra("title", title)
                 intent.putExtra("idInDB", idInDB)
                 startActivity(intent)
             }
             R.id.buttonPaint -> {
                 var intent = Intent(this, NotePaintActivity::class.java)
-                intent.putExtra("title", title)
                 intent.putExtra("idInDB", idInDB)
                 startActivity(intent)
             }
