@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             var myintent = Intent(this, NoteActivity::class.java)
+            myintent.putExtra("thisname", "titletopass")
             startActivity(myintent)
         }
         else {
