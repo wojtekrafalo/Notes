@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface QodAPI {
-    @GET("/jokes/{random}")
-    fun findJoke(@Path("random") random : String) : Call<QoD>
+    @GET("/qod.json")
+    fun findJoke() : Call<QuoteOfTheDay>
 }

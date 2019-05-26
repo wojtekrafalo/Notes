@@ -30,21 +30,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.icndb.com")
+            .baseUrl("http://quotes.rest")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val chuck = retrofit.create(QodAPI::class.java)
-        val call = chuck.findJoke("random")
+        val call = chuck.findJoke()
 
-        call.enqueue( object : Callback<QoD> {
-            override fun onFailure(call: Call<QoD>, t: Throwable) {
+        call.enqueue( object : Callback<QuoteOfTheDay> {
+            override fun onFailure(call: Call<QuoteOfTheDay>, t: Throwable) {
                 Log.d("am2019", t.message)
             }
 
-            override fun onResponse(call: Call<QoD>, response: Response<QoD>) {
+            override fun onResponse(call: Call<QuoteOfTheDay>, response: Response<QuoteOfTheDay>) {
                 val body = response.body()
-                qod.text = body!!.value.joke
+                qod.text = body!!.contents.quotes[0].quote
             }
 
         })
