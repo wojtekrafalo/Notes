@@ -13,6 +13,11 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_category_dialog.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +28,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.icndb.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val chuck = retrofit.create(QodAPI::class.java)
+        val call = chuck.findJoke("random")
+
+        call.enqueue( object : Callback<QoD> {
+            override fun onFailure(call: Call<QoD>, t: Throwable) {
+                Log.d("am2019", t.message)
+            }
+
+            override fun onResponse(call: Call<QoD>, response: Response<QoD>) {
+                val body = response.body()
+                qod.text = body!!.value.joke
+            }
+
+        })
 
         AsyncTask.execute {
 
@@ -65,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         rv_notesInit()
+
     }
 
     private fun rv_notesInit() {
