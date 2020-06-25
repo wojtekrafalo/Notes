@@ -14,3 +14,4 @@ TODO:
 + Add possibility to add photos from gallery or taken from camera to note.
 + Add possibility to add voice recordings.
 + Update text editor to store multiple styles and delete style and delete style (when some text store e.x. italic, and for the same text button 'italic style' clicked).
++ Add documentation.
